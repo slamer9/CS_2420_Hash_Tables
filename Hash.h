@@ -2,11 +2,10 @@
 
 #define TABLE_SIZE 50
 #define LOW_PRIME 7
-#define HIGH_PRIME 7919
+#define HIGH_PRIME 15485863
 
 //Necessary #includes
-#include "myLinkedList.h"	//FIXME
-#include <string>
+#include "LinkedList.h"	//my linked list
 using namespace std;
 
 template <class Type>
@@ -26,7 +25,7 @@ public:
 
 
 private:
-	linkedList<Type>[TABLE_SIZE] data;
+	LinkedList<Type>[TABLE_SIZE] data;
 };
 
 
@@ -55,16 +54,16 @@ template<class Type>
 inline void HashTable<Type>::Insert(string name, Type data)
 {
 	unsigned int index = this->hashFunction(name);
-	linkedList<Type>& hashSlot = this->data[index];
+	LinkedList<Type>& hashSlot = this->data[index];
 	hashSlot.add(name, data);	//Linked needs an add function with string and Type parameters. FIXME
-					//Also probably a node<type> parameter
+								//Also probably a node<type> parameter
 }
 
 template<class Type>
 inline Type HashTable<Type>::Retrieve(string name)
 {
 	unsignsed int index = this->hashFunction(name);
-	linkedList<Type>& hashSlot = this->data[index];
+	LinkedList<Type>& hashSlot = this->data[index];
 	ListNode<Type> node = hashSlot.findByName(name);	//Node needs a copy constructor FIXME
 	return node.data();
 }
