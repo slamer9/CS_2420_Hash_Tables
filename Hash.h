@@ -38,16 +38,26 @@ inline HashTable<Type>::HashTable()
 template<class Type>
 inline HashTable<Type>::~HashTable()
 {
+	this->Clear();
+	delete[] data;
 }
 
 template<class Type>
 inline void HashTable<Type>::Clear()
 {
+	for(unsigned int i = 0; i < TABLE_SIZE; ++i)
+	{
+		this->data[i].clear();		//Linked list needs a clear function FIXME
+	}
 }
 
 template<class Type>
 inline void HashTable<Type>::Insert(string name, Type data)
 {
+	unsigned int index = this->hashFunction(name);
+	linkedList<Type>& hashSlot = this->data[index];
+	hashSlot.add(name, data);	//Linked needs an add function with string and Type parameters. FIXME
+					//Also probably a node<type> parameter
 }
 
 template<class Type>
@@ -55,7 +65,7 @@ inline Type HashTable<Type>::Retrieve(string name)
 {
 	unsignsed int index = this->hashFunction(name);
 	linkedList<Type>& hashSlot = this->data[index];
-	ListNode<Type> node = hashSlot.findByName(name);
+	ListNode<Type> node = hashSlot.findByName(name);	//Node needs a copy constructor FIXME
 	return node.data();
 }
 
