@@ -2,7 +2,7 @@
 
 #define TABLE_SIZE 50
 #define LOW_PRIME 7
-#define HIGH_PRIME 29
+#define HIGH_PRIME 7919
 
 //Necessary #includes
 #include "myLinkedList.h"	//FIXME
