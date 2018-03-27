@@ -1,3 +1,4 @@
+///
 /********************************************************************************************
 **	Project: Hash tables
 **  Programmer: Duncan Reeves
@@ -116,47 +117,47 @@ bool evaluateFileWeights(char fileName[])
 
 double evalFormula(string formula)
 {
-	unsigned int start = 0;
+	unsigned int stringIndex = 0;
 	double formula_weight = 0;
 
-	while (start < formula.length())
+	while (stringIndex < formula.length())
 	{
 		unsigned int length = 0;
-		if (isspace(formula[start]))
+		if (isspace(formula[stringIndex]))
 		{
-			++start;
+			++stringIndex;
 		}
-		else if (formula[start] == '(')
+		else if (formula[stringIndex] == '(')
 		{
 			double temp_weight = 0;
 			length = 1;
-			++start;
+			++stringIndex;
 
-			while (formula[start + length] != ')')
+			while (formula[stringIndex + length] != ')')
 			{
 				++length;
 			}
 
-			temp_weight = evalFormula(formula.substr(start, length));
-			start = start + length + 1;
+			temp_weight = evalFormula(formula.substr(stringIndex, length));
+			stringIndex = stringIndex + length + 1;
 
-			if (isdigit(formula[start]))
+			if (isdigit(formula[stringIndex]))
 			{
-				int multiplier = formula[start] - 48;    //changing from ascii to binary
+				int multiplier = formula[stringIndex] - 48;    //changing from ascii to binary
 				temp_weight *= multiplier;
-				++start;
+				++stringIndex;
 			}
 			formula_weight += temp_weight;
 		}
 		else
 		{
 			length = 1;
-			while (start + length < formula.length() && formula[start + length] != '(' && !isupper(formula[start + length]))
+			while (stringIndex + length < formula.length() && formula[stringIndex + length] != '(' && !isupper(formula[stringIndex + length]))
 			{
 				++length;
 			}
-			formula_weight += calcElement(formula.substr(start, length));
-			start += length;
+			formula_weight += calcElement(formula.substr(stringIndex, length));
+			stringIndex += length;
 		}
 	}
 
