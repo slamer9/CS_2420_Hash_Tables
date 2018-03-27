@@ -70,8 +70,7 @@ Type HashTable<Type>::Retrieve(string name)
 template<class Type>
 Type HashTable<Type>::operator[](string name)
 {
-	Type temp = this->Retrieve(name)
-	return temp;
+	return (this->Retrieve(name));
 }
 
 
