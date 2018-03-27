@@ -109,7 +109,7 @@ bool evaluateFileWeights(char fileName[])
 double evalFormula(string formula)
 {
 	unsigned int start = 0;
-	double formula_weight;
+	double formula_weight = 0;
 
 	while (start < formula.length())
 	{
