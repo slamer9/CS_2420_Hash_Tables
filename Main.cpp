@@ -19,6 +19,9 @@
 
 #include "Hash.h"
 
+//Global constant definitions
+#define DEBUG false
+
 //Global variable declaration
 HashTable<double> myHashTable;
 
@@ -37,6 +40,11 @@ int main()
 	populateHashTable(dataFileName);
 
 	evaluateFileWeights(formulaFileName);
+
+	if(DEBUG == true)
+	{
+		myHashTable.displaySize();
+	}
 
 	cout << endl << endl << "Press the [Enter] key to quit...";
 	getchar();
