@@ -13,7 +13,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <cctype>   //includes toupper
+#include <cctype>   //includes toupper, isupper, etc
 #include <sstream>
 
 #include "Hash.h"
@@ -21,12 +21,11 @@
 //Global variable declaration
 HashTable<double> myHashTable;
 
-//Function declaration
-
+//Function declarations
 bool populateHashTable(char fileName[]);
+bool evaluateFileWeights(char fileName[]);
 double evalFormula(string formula);
 double calcElement(string abbriviation);
-
 
 
 int main()
@@ -36,45 +35,19 @@ int main()
 
     populateHashTable(dataFileName);
 
-    evalueateFlie();
+    evaluateFileWeights(formulaFileName);
 
-    ifstream FileData2;
-	FileData2.open(formulaFileName/*, 0*/);
-	if (FileData2.good() == false)
-	{
-		cout << "ERROR: can't open data file: " << formulaFileName << endl;
-
-		// wait for the user to press enter to quit
-		cout << endl << "Press the [Enter] key to quit...";
-		getchar();
-		return -1;
-	}
-
-    //FIXME read and interpret data in file
-
-    /*Loop and get every line in file
-        //function to get total weight from every line of text in file.
-    */
-    string formula;
-    while (getline(FileData2, formula) && !FileData2.eof())
-	{
-        cout << endl << "Weight of " << formula << " = ";
-        double formula_weight = evalFormula(formula);
-        cout << formula_weight << " atomic units." << endl;
-	}
-	
-	FileData2.close();
-
-	// wait for the user to press enter to quit
-	cout << endl << "Press the [Enter] key to quit...";
+	cout << endl << endl << "Press the [Enter] key to quit...";
 	getchar();
 }
 
+//Function definitions
+
 bool populateHashTable(char fileName[])
 {
-    ifstream FileData1;
-	FileData1.open(fileName/*, 0*/);
-	if (FileData1.good() == false)
+    ifstream fileData;
+	fileData.open(fileName/*, 0*/);
+	if (fileData.good() == false)
 	{
 		cout << "ERROR: can't open data file: " << fileName << endl;
 
@@ -88,7 +61,7 @@ bool populateHashTable(char fileName[])
     unsigned int elementNumber;
     string abbriviation;
     double atomicWeight;
-	while (getline(FileData1, elementData) && !FileData1.eof())
+	while (getline(fileData, elementData) && !fileData.eof())
 	{
         istringstream readString(elementData);
 
@@ -99,7 +72,38 @@ bool populateHashTable(char fileName[])
         myHashTable.Insert(abbriviation, atomicWeight);
 	}
 
-    FileData1.close();
+    fileData.close();
+    return true;
+}
+
+bool evaluateFileWeights(char fileName[])
+{
+    ifstream fileData;
+	fileData.open(fileName/*, 0*/);
+	if (fileData.good() == false)
+	{
+		cout << "ERROR: can't open data file: " << fileName << endl;
+
+		// wait for the user to press enter to quit
+		cout << endl << "Press the [Enter] key to quit...";
+		getchar();
+		return false;
+	}
+
+    //FIXME read and interpret data in file
+
+    /*Loop and get every line in file
+        //function to get total weight from every line of text in file.
+    */
+    string formula;
+    while (getline(fileData, formula) && !fileData.eof())
+	{
+        cout << endl << "Weight of " << formula << " = ";
+        double formula_weight = evalFormula(formula);
+        cout << formula_weight << " atomic units." << endl;
+	}
+	
+	fileData.close();
     return true;
 }
 
