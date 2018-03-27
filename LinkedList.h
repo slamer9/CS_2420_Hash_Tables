@@ -34,10 +34,10 @@ inline ListNode<Type>::ListNode(string name, Type data, ListNode* next, ListNode
 	this->previous = previous;
 }
 
- template<class Type>
- inline ListNode<Type>::~ListNode()
- {
- }
+template<class Type>
+inline ListNode<Type>::~ListNode()
+{
+}
 
 
 
@@ -166,7 +166,7 @@ inline void LinkedList<Type>::clear()
 {
 	if (this->head != nullptr)
 	{
-		ListNode<Type> temp = this->head;
+		ListNode<Type>* temp = this->head;
 		while (temp != nullptr)
 		{
 			temp = temp->next;
