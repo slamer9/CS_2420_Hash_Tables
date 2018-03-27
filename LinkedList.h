@@ -53,6 +53,8 @@ public:
     ListNode<Type> findNodeByName(string name);
     ListNode<Type>& findNodeByNameReference(string name);
 
+    unsigned int getSize(){return this->size;}
+
     void clear();
 
     //Add sorts?

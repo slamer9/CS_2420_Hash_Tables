@@ -1,11 +1,13 @@
 #pragma once
 
-#define TABLE_SIZE 50
-#define LOW_PRIME 7
+#define TABLE_SIZE 10
+#define LOW_PRIME 5
+#define MED_PRIME 11
 #define HIGH_PRIME 15485863
 
 //Necessary #includes
 #include "LinkedList.h"	//my linked list
+
 using namespace std;
 
 template <class Type>
@@ -28,30 +30,29 @@ private:
 	LinkedList<Type>[TABLE_SIZE] data;
 };
 
-
 template<class Type>
-inline HashTable<Type>::HashTable()
+HashTable<Type>::HashTable()
 {
 }
 
 template<class Type>
-inline HashTable<Type>::~HashTable()
+HashTable<Type>::~HashTable()
 {
 	this->Clear();
 	delete[] data;
 }
 
 template<class Type>
-inline void HashTable<Type>::Clear()
+void HashTable<Type>::Clear()
 {
 	for(unsigned int i = 0; i < TABLE_SIZE; ++i)
 	{
-		this->data[i].clear();		//Linked list needs a clear function FIXME
+		this->data[i].clear();
 	}
 }
 
 template<class Type>
-inline void HashTable<Type>::Insert(string name, Type data)
+void HashTable<Type>::Insert(string name, Type data)
 {
 	unsigned int index = this->hashFunction(name);
 	LinkedList<Type>& hashSlot = this->data[index];
@@ -59,7 +60,7 @@ inline void HashTable<Type>::Insert(string name, Type data)
 }
 
 template<class Type>
-inline Type HashTable<Type>::Retrieve(string name)
+Type HashTable<Type>::Retrieve(string name)
 {
 	unsignsed int index = this->hashFunction(name);
 	LinkedList<Type>& hashSlot = this->data[index];
@@ -67,7 +68,7 @@ inline Type HashTable<Type>::Retrieve(string name)
 }
 
 template<class Type>
-inline Type HashTable<Type>::operator[](string name)
+Type HashTable<Type>::operator[](string name)
 {
 	Type temp = this->Retrieve(name)
 	return temp;
@@ -79,9 +80,10 @@ inline unsigned int HashTable<Type>::hashFunction(string name)
 {
 	unsigned int index;
 	//FIXME
-	//Convert string to ascii values and add them all together into sum.
-	index *= HIGH_PRIME;
+	//Convert string to ascii values and sum them all together into index.
 	index /= LOW_PRIME;	//THIS DOES INTEGER DIVISION RIGHT?! NOTE[]
+	index *= HIGH_PRIME;
+	index /= MED_PRIME;
 	index %= TABLE_SIZE;
 	
 	return index;
