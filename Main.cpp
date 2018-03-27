@@ -18,27 +18,31 @@
 
 #include "Hash.h"
 
+//Global variable declaration
+HashTable<double> myHashTable;
 
 //Function declaration
-//void populateHashTable(ifstream file);
 
+bool populateHashTable(char fileName[]);
 double evalFormula(string formula);
 double calcElement(string abbriviation);
 
-    HashTable<double> myHashTable;
 
 
 int main()
 {
-	// specify the input data file
 	char dataFileName[] = "PeriodicTableElements.txt";
     char formulaFileName[] = "formulas.txt";
 
-	ifstream FileData1;
-	FileData1.open(dataFileName/*, 0*/);
-	if (FileData1.good() == false)
+    populateHashTable(dataFileName);
+
+    evalueateFlie();
+
+    ifstream FileData2;
+	FileData2.open(formulaFileName/*, 0*/);
+	if (FileData2.good() == false)
 	{
-		cout << "ERROR: can't open data file: " << dataFileName << endl;
+		cout << "ERROR: can't open data file: " << formulaFileName << endl;
 
 		// wait for the user to press enter to quit
 		cout << endl << "Press the [Enter] key to quit...";
@@ -46,9 +50,40 @@ int main()
 		return -1;
 	}
 
-	// I've got the data file open, now populate Hash table.
-    //FIXME populate hash table***************************************
-    //
+    //FIXME read and interpret data in file
+
+    /*Loop and get every line in file
+        //function to get total weight from every line of text in file.
+    */
+    string formula;
+    while (getline(FileData2, formula) && !FileData2.eof())
+	{
+        cout << endl << "Weight of " << formula << " = ";
+        double formula_weight = evalFormula(formula);
+        cout << formula_weight << " atomic units." << endl;
+	}
+	
+	FileData2.close();
+
+	// wait for the user to press enter to quit
+	cout << endl << "Press the [Enter] key to quit...";
+	getchar();
+}
+
+bool populateHashTable(char fileName[])
+{
+    ifstream FileData1;
+	FileData1.open(fileName/*, 0*/);
+	if (FileData1.good() == false)
+	{
+		cout << "ERROR: can't open data file: " << fileName << endl;
+
+		// wait for the user to press enter to quit
+		cout << endl << "Press the [Enter] key to quit...";
+		getchar();
+		return false;
+	}
+
     string elementData;
     unsigned int elementNumber;
     string abbriviation;
@@ -65,38 +100,7 @@ int main()
 	}
 
     FileData1.close();
-
-
-    ifstream FileData2;
-	FileData2.open(dataFileName/*, 0*/);
-	if (FileData2.good() == false)
-	{
-		cout << "ERROR: can't open data file: " << dataFileName << endl;
-
-		// wait for the user to press enter to quit
-		cout << endl << "Press the [Enter] key to quit...";
-		getchar();
-		return -1;
-	}
-
-    //FIXME read and interpret data in file
-
-    /*Loop and get every line of code
-        //function to get total weight from every line of text in file.
-    */
-    string formula;
-    while (getline(FileData2, formula) && !FileData2.eof())
-	{
-        cout << endl << "Weight of " << formula << " = ";
-        double formula_weight = evalFormula(formula);
-        cout << formula_weight << " atomic units." << endl;
-	}
-	
-	FileData2.close();
-
-	// wait for the user to press enter to quit
-	cout << endl << "Press the [Enter] key to quit...";
-	getchar();
+    return true;
 }
 
 double evalFormula(string formula)
