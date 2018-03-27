@@ -50,7 +50,7 @@ public:
 
 	void add(string name = "empty node", Type data = NULL);
 	void add(ListNode<Type>* node);
-	LinkedList<Type> operator + (LinkedList<Type>& otherList);	//FIXME add later
+	LinkedList<Type> operator + (LinkedList<Type>& otherList);
 
 	Type findByName(string name);
 	Type& findByNameReference(string name);
@@ -99,6 +99,30 @@ inline void LinkedList<Type>::add(ListNode<Type>* node)
 	}
 	this->head = node;
 	this->size++;
+}
+
+template<class Type>
+LinkedList<Type> LinkedList<Type>::operator+(LinkedList<Type>& otherList)	//Get this to be destructive.  FIXME
+{
+	if (this->head == nullptr)
+	{
+		return otherList;
+	}
+	else if (otherList->head == nullptr)
+	{
+		return *this;
+	}
+	else
+	{
+		tListNode<Type>* temp = this->head;
+		while (temp->next != nullptr)
+		{
+			temp = temp->next;
+		}
+		temp->next = otherList->head;
+		otherList->head = nullptr;
+		return *this;
+	}
 }
 
 template<class Type>
