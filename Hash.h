@@ -55,8 +55,7 @@ inline void HashTable<Type>::Insert(string name, Type data)
 {
 	unsigned int index = this->hashFunction(name);
 	LinkedList<Type>& hashSlot = this->data[index];
-	hashSlot.add(name, data);	//Linked needs an add function with string and Type parameters. FIXME
-								//Also probably a node<type> parameter
+	hashSlot.add(name, data);
 }
 
 template<class Type>
@@ -64,8 +63,7 @@ inline Type HashTable<Type>::Retrieve(string name)
 {
 	unsignsed int index = this->hashFunction(name);
 	LinkedList<Type>& hashSlot = this->data[index];
-	ListNode<Type> node = hashSlot.findByName(name);	//Node needs a copy constructor FIXME
-	return node.data();
+	return hashSlot.findByName();
 }
 
 template<class Type>
