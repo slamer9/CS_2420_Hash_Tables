@@ -8,7 +8,6 @@
 //Necessary #includes
 #include "LinkedList.h"	//my linked list
 
-using namespace std;
 
 template <class Type>
 class HashTable
@@ -22,12 +21,12 @@ public:
 	Type Retrieve(string name);		//Return a Type& ?
 	Type operator [] (string name);	//Notation for Retrieve
 	unsigned int hashFunction(string name);
-	
+
 	//Hash tables should be smaller than number of entries to ensure collision
 
 
 private:
-	LinkedList<Type>[TABLE_SIZE] data;
+	LinkedList<Type> data[TABLE_SIZE];
 };
 
 template<class Type>
@@ -45,7 +44,7 @@ HashTable<Type>::~HashTable()
 template<class Type>
 void HashTable<Type>::Clear()
 {
-	for(unsigned int i = 0; i < TABLE_SIZE; ++i)
+	for (unsigned int i = 0; i < TABLE_SIZE; ++i)
 	{
 		this->data[i].clear();
 	}
@@ -62,9 +61,9 @@ void HashTable<Type>::Insert(string name, Type data)
 template<class Type>
 Type HashTable<Type>::Retrieve(string name)
 {
-	unsignsed int index = this->hashFunction(name);
+	unsigned int index = this->hashFunction(name);
 	LinkedList<Type>& hashSlot = this->data[index];
-	return hashSlot.findByName();
+	return hashSlot.findByName(name);
 }
 
 template<class Type>
@@ -79,15 +78,15 @@ inline unsigned int HashTable<Type>::hashFunction(string name)
 {
 	unsigned int index = 0;
 
-	for(char c: name)
+	for (char c : name)
 	{
 		index += c;
 	}
 
-	index /= LOW_PRIME;	
+	index /= LOW_PRIME;
 	index *= HIGH_PRIME;
 	index /= MED_PRIME;
 	index %= TABLE_SIZE;
-	
+
 	return index;
 }
