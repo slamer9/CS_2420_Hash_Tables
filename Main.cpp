@@ -90,8 +90,6 @@ bool evaluateFileWeights(char fileName[])
 		return false;
 	}
 
-    //FIXME read and interpret data in file
-
     /*Loop and get every line in file
         //function to get total weight from every line of text in file.
     */

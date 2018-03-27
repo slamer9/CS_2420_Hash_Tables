@@ -77,10 +77,14 @@ Type HashTable<Type>::operator[](string name)
 template<class Type>
 inline unsigned int HashTable<Type>::hashFunction(string name)
 {
-	unsigned int index;
-	//FIXME
-	//Convert string to ascii values and sum them all together into index.
-	index /= LOW_PRIME;	//THIS DOES INTEGER DIVISION RIGHT?! NOTE[]
+	unsigned int index = 0;
+
+	for(char c: name)
+	{
+		index += c;
+	}
+
+	index /= LOW_PRIME;	
 	index *= HIGH_PRIME;
 	index /= MED_PRIME;
 	index %= TABLE_SIZE;

@@ -28,11 +28,10 @@ inline ListNode<Type>::ListNode(string name, Type data, ListNode* next, ListNode
     this->previous = previous;
 }
 
-template<class Type>
-inline ListNode<Type>::~ListNode()
-{
-    //delete this->node_data;   //FIXME should I do this?
-}
+// template<class Type>
+// inline ListNode<Type>::~ListNode()
+// {
+// }
 
 
 
@@ -45,7 +44,7 @@ public:
 
     void add(string name = "empty node", Type data = NULL);
     void add(ListNode<Type>& node);
-    //overloaded + operator here.   Link together then destruct differently? FIXME
+    LinkedList<Type> operator + (LinkedList<Type>& otherList);
 
     Type findByName(string name);
     Type& findByNameReference(string name);
@@ -94,6 +93,12 @@ inline void LinkedList<Type>::add(ListNode<Type>& node)
     }
     this->head = node;
     this->size++;
+}
+
+template<class Type>
+Type HashTable<Type>::operator[](string name)
+{
+	return (this->Retrieve(name));
 }
 
 template<class Type>
