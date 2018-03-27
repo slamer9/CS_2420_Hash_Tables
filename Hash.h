@@ -18,7 +18,7 @@ public:
 
 	void Clear();
 	void Insert(string name, Type data);
-	Type Retrieve(string name);		//Return a Type& ?
+	Type Retrieve(string name);
 	Type operator [] (string name);	//Notation for Retrieve
 	unsigned int hashFunction(string name);
 
