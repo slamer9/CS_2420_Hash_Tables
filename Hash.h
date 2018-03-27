@@ -17,13 +17,16 @@ public:
 	~HashTable();
 
 	void Clear();
+
 	void Insert(string name, Type data);
+
 	Type Retrieve(string name);
-	Type operator [] (string name);	//Notation for Retrieve
+	Type& RetrieveByReference(string name);
+	Type operator [] (string name);	//Alternate notation for Retrieve
+
 	unsigned int hashFunction(string name);
 
-	//Hash tables should be smaller than number of entries to ensure collision
-
+	void displaySize();	//Mainly for debugging purposes
 
 private:
 	LinkedList<Type> data[TABLE_SIZE];
@@ -67,6 +70,14 @@ Type HashTable<Type>::Retrieve(string name)
 }
 
 template<class Type>
+Type& HashTable<Type>::RetrieveByReference(string name)
+{
+	unsigned int index = this->hashFunction(name);
+	LinkedList<Type>& hashSlot = this->data[index];
+	return hashSlot.findByNameReference(name);
+}
+
+template<class Type>
 Type HashTable<Type>::operator[](string name)
 {
 	return (this->Retrieve(name));
@@ -74,7 +85,7 @@ Type HashTable<Type>::operator[](string name)
 
 
 template<class Type>
-inline unsigned int HashTable<Type>::hashFunction(string name)
+unsigned int HashTable<Type>::hashFunction(string name)
 {
 	unsigned int index = 0;
 
@@ -89,4 +100,14 @@ inline unsigned int HashTable<Type>::hashFunction(string name)
 	index %= TABLE_SIZE;
 
 	return index;
+}
+
+template<class Type>
+void HashTable<Type>::displaySize()
+{
+	cout << endl << "Displaying hash table distribution." << endl;
+	for (unsigned int i = 0; i < TABLE_SIZE; ++i)
+	{
+		cout << "Hashslot " << i << ", has " << data[i].getSize() << " nodes inside it." << endl;
+	}
 }
