@@ -10,6 +10,7 @@
 **	provided by the instructor.
 **
 ***********************************************************************************************/
+#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -31,11 +32,11 @@ double calcElement(string abbriviation);
 int main()
 {
 	char dataFileName[] = "PeriodicTableElements.txt";
-    char formulaFileName[] = "formulas.txt";
+	char formulaFileName[] = "formulas.txt";
 
-    populateHashTable(dataFileName);
+	populateHashTable(dataFileName);
 
-    evaluateFileWeights(formulaFileName);
+	evaluateFileWeights(formulaFileName);
 
 	cout << endl << endl << "Press the [Enter] key to quit...";
 	getchar();
@@ -45,7 +46,7 @@ int main()
 
 bool populateHashTable(char fileName[])
 {
-    ifstream fileData;
+	ifstream fileData;
 	fileData.open(fileName/*, 0*/);
 	if (fileData.good() == false)
 	{
@@ -57,28 +58,28 @@ bool populateHashTable(char fileName[])
 		return false;
 	}
 
-    string elementData;
-    unsigned int elementNumber;
-    string abbriviation;
-    double atomicWeight;
+	string elementData;
+	unsigned int elementNumber;
+	string abbriviation;
+	double atomicWeight;
 	while (getline(fileData, elementData) && !fileData.eof())
 	{
-        istringstream readString(elementData);
+		istringstream readString(elementData);
 
 		readString >> elementNumber;   //Discard;
-        readString >> abbriviation;
-        readString >> atomicWeight;
+		readString >> abbriviation;
+		readString >> atomicWeight;
 
-        myHashTable.Insert(abbriviation, atomicWeight);
+		myHashTable.Insert(abbriviation, atomicWeight);
 	}
 
-    fileData.close();
-    return true;
+	fileData.close();
+	return true;
 }
 
 bool evaluateFileWeights(char fileName[])
 {
-    ifstream fileData;
+	ifstream fileData;
 	fileData.open(fileName/*, 0*/);
 	if (fileData.good() == false)
 	{
@@ -90,81 +91,83 @@ bool evaluateFileWeights(char fileName[])
 		return false;
 	}
 
-    /*Loop and get every line in file
-        //function to get total weight from every line of text in file.
-    */
-    string formula;
-    while (getline(fileData, formula) && !fileData.eof())
+	/*Loop and get every line in file
+	//function to get total weight from every line of text in file.
+	*/
+	string formula;
+	while (getline(fileData, formula) && !fileData.eof())
 	{
-        cout << endl << "Weight of " << formula << " = ";
-        double formula_weight = evalFormula(formula);
-        cout << formula_weight << " atomic units." << endl;
+		cout << endl << "Weight of " << formula << " = ";
+		double formula_weight = evalFormula(formula);
+		cout << formula_weight << " atomic units." << endl;
 	}
-	
+
 	fileData.close();
-    return true;
+	return true;
 }
 
 double evalFormula(string formula)
 {
-    unsigned int start = 0;
-    double formula_weight;
+	unsigned int start = 0;
+	double formula_weight;
 
-    while(start < formula.length())
-    {
-        unsigned int length = 0;
-        if(isspace(formula[start]))
-        {
-            ++start;
-        } else if (formula[start] == '(')
-        {
-            double temp_weight = 0;
-            length = 1;
-            ++start;
+	while (start < formula.length())
+	{
+		unsigned int length = 0;
+		if (isspace(formula[start]))
+		{
+			++start;
+		}
+		else if (formula[start] == '(')
+		{
+			double temp_weight = 0;
+			length = 1;
+			++start;
 
-            while(formula[start + length] != ')')
-            {
-                ++length;
-            }
+			while (formula[start + length] != ')')
+			{
+				++length;
+			}
 
-            temp_weight = evalFormula(formula.substr(start, length));
-            start = start + length + 1;
+			temp_weight = evalFormula(formula.substr(start, length));
+			start = start + length + 1;
 
-            if (isdigit(formula[start]))
-            {
-                int multiplier = formula[start] -48;    //changing from ascii to binary
-                temp_weight *= multiplier;
-                ++start;
-            }
-            formula_weight += temp_weight;
-        }else
-        {
-            length = 1;
-            while(start + length < formula.length() && formula[start + length] != '(' && !isupper(formula[start + length]))
-            {
-                ++length;
-            }
-            formula_weight += calcElement(formula.substr(start, length));
-            start += length;
-        }
-    }
+			if (isdigit(formula[start]))
+			{
+				int multiplier = formula[start] - 48;    //changing from ascii to binary
+				temp_weight *= multiplier;
+				++start;
+			}
+			formula_weight += temp_weight;
+		}
+		else
+		{
+			length = 1;
+			while (start + length < formula.length() && formula[start + length] != '(' && !isupper(formula[start + length]))
+			{
+				++length;
+			}
+			formula_weight += calcElement(formula.substr(start, length));
+			start += length;
+		}
+	}
 
-    return formula_weight;
+	return formula_weight;
 }
 
 double calcElement(string abbriviation)
 {
-    unsigned int length = 0;
-    while (!isdigit(abbriviation[length]) && length < abbriviation.length())
-    {
-        ++length;
-    }
+	unsigned int length = 0;
+	while (!isdigit(abbriviation[length]) && length < abbriviation.length())
+	{
+		++length;
+	}
 
-    string elementStr = abbriviation.substr(0, length);
-    if(length < abbriviation.length)
-    {
-        return myHashTable[elementStr] * stod(abbriviation.substr(length));
-    }
+	string elementStr = abbriviation.substr(0, length);
+	if (length < abbriviation.length())
+	{
+		return myHashTable[elementStr] * stod(abbriviation.substr(length));
+	}
 
-    return myHashTable[elementStr];
+	return myHashTable[elementStr];
 }
