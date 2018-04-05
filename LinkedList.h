@@ -37,6 +37,7 @@ inline ListNode<Type>::ListNode(string name, Type data, ListNode* next, ListNode
 template<class Type>
 inline ListNode<Type>::~ListNode()
 {
+	//Does node_data automatically free even if it's set to an array or pointer?
 }
 
 
@@ -66,6 +67,7 @@ public:
 
 private:
 	ListNode<Type>* head;
+	ListNode<Type>* tail;
 	unsigned int size;
 };
 
@@ -73,6 +75,7 @@ template<class Type>
 inline LinkedList<Type>::LinkedList()
 {
 	this->head = nullptr;
+	this->tail = nullptr;
 	this->size = 0;
 }
 
@@ -96,6 +99,9 @@ inline void LinkedList<Type>::add(ListNode<Type>* node)
 	if (this->head != nullptr)
 	{
 		this->head->previous = node;
+	}else
+	{
+		this->tail = node;
 	}
 	this->head = node;
 	this->size++;
