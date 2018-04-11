@@ -120,12 +120,7 @@ LinkedList<Type> LinkedList<Type>::operator+(LinkedList<Type>& otherList)	//Get 
 	}
 	else
 	{
-		tListNode<Type>* temp = this->head;
-		while (temp->next != nullptr)
-		{
-			temp = temp->next;
-		}
-		temp->next = otherList->head;
+		this->tail = otherList->head;
 		otherList->head = nullptr;
 		return *this;
 	}
